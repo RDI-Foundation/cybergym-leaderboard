@@ -20,19 +20,8 @@
       manifest: "./cybergym-green.json5",
       config: {
         task: "arvo:47101",
-      },
-    },
-    vul_executor: {
-      manifest: "./cybergym-executor.json5",
-      config: {
-        image: "n132/arvo:47101-vul",
-        executor_command: "/bin/arvo",
-      },
-    },
-    fix_executor: {
-      manifest: "./cybergym-executor.json5",
-      config: {
-        image: "n132/arvo:47101-fix",
+        vul_image: "n132/arvo:47101-vul",
+        fix_image: "n132/arvo:47101-fix",
         executor_command: "/bin/arvo",
       },
     },
@@ -45,8 +34,6 @@
   bindings: [
     { to: "#gateway.green",   from: "#green.a2a" },
     { to: "#gateway.purple1", from: "#agent.a2a" },
-    { to: "#green.vul", from: "#vul_executor.http" },
-    { to: "#green.fix", from: "#fix_executor.http" },
     { to: "#green.proxy",  from: "#gateway.proxy", weak: true, name: "green-proxy" },
   ],
   exports: { results: "#gateway.results" },

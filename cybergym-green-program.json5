@@ -1,0 +1,38 @@
+{
+  manifest_version: "0.1.0",
+  program: {
+    image: "cybergym-green:latest",
+    entrypoint: "uv run --no-sync python src/server.py --host 0.0.0.0 --port 9009",
+    env: {
+      PYTHONUNBUFFERED: "1",
+      TASK: "${config.task}",
+      VUL_EXECUTOR_URL: "${slots.vul.url}",
+      FIX_EXECUTOR_URL: "${slots.fix.url}",
+      PROXY_URL: "${slots.proxy.url}",
+    },
+    network: {
+      endpoints: [
+        { name: "endpoint", port: 9009 },
+      ],
+    },
+  },
+  config_schema: {
+    type: "object",
+    properties: {
+      task: { type: "string" },
+    },
+    required: ["task"],
+    additionalProperties: false,
+  },
+  slots: {
+    vul: { kind: "http" },
+    fix: { kind: "http" },
+    proxy: { kind: "a2a" },
+  },
+  provides: {
+    a2a: { kind: "a2a", endpoint: "endpoint" },
+  },
+  exports: {
+    a2a: "a2a",
+  },
+}
