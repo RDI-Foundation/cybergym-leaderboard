@@ -13,7 +13,7 @@ jobs:
       id-token: write
       contents: write
     with:
-      num_shards: 1
+      num_shards: 2
     # Optional: bind leaderboard-repo secrets into the green agent during Quick Submit.
     # This is fully opt-in.
     # Pass one explicit secret payload to the reusable workflow. Construct it inline from only
