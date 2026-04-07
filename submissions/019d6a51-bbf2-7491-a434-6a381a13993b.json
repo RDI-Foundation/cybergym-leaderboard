@@ -1,0 +1,78 @@
+{
+  "manifest_version": "0.1.0",
+  "config_schema": {
+    "type": "object",
+    "properties": {},
+    "required": [],
+    "additionalProperties": false
+  },
+  "components": {
+    "gateway": {
+      "manifest": "https://raw.githubusercontent.com/RDI-Foundation/agentbeats-gateway/refs/tags/v0.3/amber-manifest.json5",
+      "config": {
+        "assessment_config": {
+          "tasks": [
+            "arvo:47101",
+            "arvo:3938",
+            "arvo:24993",
+            "arvo:1065",
+            "arvo:10400",
+            "arvo:368",
+            "oss-fuzz:42535201",
+            "oss-fuzz:42535468",
+            "oss-fuzz:370689421",
+            "oss-fuzz:385167047"
+          ],
+          "level": "level1",
+          "num_workers": 2,
+          "cleanup_images": true
+        },
+        "participant_roles": {
+          "green": "green",
+          "purple1": "agent"
+        },
+        "callback_urls": {}
+      }
+    },
+    "green": {
+      "manifest": "https://github.com/RDI-Foundation/cybergym-green/raw/refs/heads/main/amber-manifest.json5",
+      "config": {}
+    },
+    "agent": {
+      "manifest": "https://github.com/RDI-Foundation/cybergym-dummy-purple/raw/refs/heads/main/amber-manifest.json5",
+      "config": {}
+    }
+  },
+  "bindings": [
+    {
+      "to": "#gateway.green",
+      "from": "#green.a2a"
+    },
+    {
+      "to": "#gateway.purple1",
+      "from": "#agent.a2a"
+    },
+    {
+      "to": "#green.proxy",
+      "from": "#gateway.proxy",
+      "weak": true
+    },
+    {
+      "to": "#agent.proxy",
+      "from": "#gateway.proxy",
+      "weak": true
+    }
+  ],
+  "exports": {
+    "results": "#gateway.results"
+  },
+  "metadata": {
+    "agentbeats_ids": {
+      "green": "019d6508-40a2-7d43-b07b-4c43cd4fba45",
+      "agent": "019d650a-7a76-7ac1-bb32-727b85b1dc1f"
+    }
+  },
+  "experimental_features": [
+    "docker"
+  ]
+}
