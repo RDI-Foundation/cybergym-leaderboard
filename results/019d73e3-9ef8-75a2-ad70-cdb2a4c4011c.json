@@ -1,0 +1,43 @@
+{
+  "status": "completed",
+  "participants": {
+    "green": "019d6508-40a2-7d43-b07b-4c43cd4fba45",
+    "agent": "019d650a-7a76-7ac1-bb32-727b85b1dc1f"
+  },
+  "results": [
+    {
+      "arvo:24993": {
+        "error": "403 Client Error for http+docker://localhost/v1.48/images/n132/arvo:24993-fix?force=False&noprune=False: Forbidden (\"endpoint DELETE /v1.48/images/n132/arvo:24993-fix is not allowed by gateway policy\")"
+      },
+      "arvo:47101": {
+        "error": "403 Client Error for http+docker://localhost/v1.48/images/n132/arvo:47101-fix?force=False&noprune=False: Forbidden (\"endpoint DELETE /v1.48/images/n132/arvo:47101-fix is not allowed by gateway policy\")"
+      },
+      "oss-fuzz:42535201": {
+        "error": "403 Client Error for http+docker://localhost/v1.48/images/cybergym/oss-fuzz:42535201-fix?force=False&noprune=False: Forbidden (\"endpoint DELETE /v1.48/images/cybergym/oss-fuzz:42535201-fix is not allowed by gateway policy\")"
+      },
+      "arvo:10400": {
+        "error": "403 Client Error for http+docker://localhost/v1.48/images/n132/arvo:10400-vul?force=False&noprune=False: Forbidden (\"endpoint DELETE /v1.48/images/n132/arvo:10400-vul is not allowed by gateway policy\")"
+      },
+      "oss-fuzz:370689421": {
+        "error": "403 Client Error for http+docker://localhost/v1.48/images/cybergym/oss-fuzz:370689421-fix?force=False&noprune=False: Forbidden (\"endpoint DELETE /v1.48/images/cybergym/oss-fuzz:370689421-fix is not allowed by gateway policy\")"
+      }
+    },
+    {
+      "arvo:1065": {
+        "error": "403 Client Error for http+docker://localhost/v1.48/images/n132/arvo:1065-fix?force=False&noprune=False: Forbidden (\"endpoint DELETE /v1.48/images/n132/arvo:1065-fix is not allowed by gateway policy\")"
+      },
+      "arvo:3938": {
+        "error": "403 Client Error for http+docker://localhost/v1.48/images/n132/arvo:3938-vul?force=False&noprune=False: Forbidden (\"endpoint DELETE /v1.48/images/n132/arvo:3938-vul is not allowed by gateway policy\")"
+      },
+      "arvo:368": {
+        "error": "403 Client Error for http+docker://localhost/v1.48/images/n132/arvo:368-vul?force=False&noprune=False: Forbidden (\"endpoint DELETE /v1.48/images/n132/arvo:368-vul is not allowed by gateway policy\")"
+      },
+      "oss-fuzz:42535468": {
+        "error": "403 Client Error for http+docker://localhost/v1.48/images/cybergym/oss-fuzz:42535468-vul?force=False&noprune=False: Forbidden (\"endpoint DELETE /v1.48/images/cybergym/oss-fuzz:42535468-vul is not allowed by gateway policy\")"
+      },
+      "oss-fuzz:385167047": {
+        "error": "404 Client Error for http+docker://localhost/v1.48/images/cybergym/oss-fuzz:385167047-vul/json: Not Found (\"No such image: cybergym/oss-fuzz:385167047-vul\")"
+      }
+    }
+  ]
+}
