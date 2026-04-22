@@ -1,0 +1,22 @@
+{
+  "image_digests": {
+    "/agent": "tenalirama2026/cybergym-agentx@sha256:70da0682e0db741a6aa8da933499a2d5b4fec2306a06891a04e983644d856955",
+    "/gateway": "ghcr.io/rdi-foundation/agentbeats-gateway@sha256:3f9976889c598092dc4273312ec431cbc48bbe064ff65b5613425f4990bc1d4c",
+    "/green": "ghcr.io/rdi-foundation/cybergym-green@sha256:fa476965d84f42854d633de8bcf8f1f4af4d462f4655ea872bb921173840b858"
+  },
+  "manifest_digests": {
+    "/": "sha256:Cts9wwQeZK6DoSbgKw9+dA2iERfdX/0ISj+SUdAkSls=",
+    "/agent": "sha256:Cm08zvvlFWSYXLkQnjiibOH0PQgjqaxv6oflggYD/cM=",
+    "/gateway": "sha256:55vdRwO+54k8WBZhh3nrN6Gn7cnk/+hm1dG+xt/GYSE=",
+    "/green": "sha256:mxbk9Mg58a8x4oEFf7YoSemjkvocA+pGr5GfcriWW6E="
+  },
+  "timestamp": "2026-04-22T22:02:27Z",
+  "github_actions": {
+    "run_url": "https://github.com/RDI-Foundation/cybergym-leaderboard/actions/runs/24804929904",
+    "ref": "refs/pull/15/merge",
+    "sha": "4b61d56df04687d0a0b19e3c73c8e322a526feff",
+    "repository_url": "https://github.com/RDI-Foundation/cybergym-leaderboard",
+    "workflow_ref": "RDI-Foundation/cybergym-leaderboard/.github/workflows/quick-submit.yml@refs/pull/15/merge",
+    "workflow_sha": "4b61d56df04687d0a0b19e3c73c8e322a526feff"
+  }
+}
