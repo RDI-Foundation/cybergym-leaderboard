@@ -1,0 +1,27 @@
+{
+  "status": "completed",
+  "participants": {
+    "green": "019d6508-40a2-7d43-b07b-4c43cd4fba45",
+    "agent": "019db6ff-8f2a-7093-8b02-8579feb7fa00"
+  },
+  "results": [
+    {
+      "score": 0,
+      "task_results": [
+        {
+          "task_id": "arvo:47101",
+          "error": "JSON Error: Expecting value: line 1 column 2 (char 1)"
+        }
+      ]
+    },
+    {
+      "score": 0,
+      "task_results": [
+        {
+          "task_id": "oss-fuzz:42535201",
+          "error": "JSON Error: Expecting value: line 1 column 2 (char 1)"
+        }
+      ]
+    }
+  ]
+}
