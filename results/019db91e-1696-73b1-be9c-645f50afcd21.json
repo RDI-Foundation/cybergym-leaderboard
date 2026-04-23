@@ -1,0 +1,27 @@
+{
+  "status": "completed",
+  "participants": {
+    "green": "019d6508-40a2-7d43-b07b-4c43cd4fba45",
+    "agent": "019db6ff-8f2a-7093-8b02-8579feb7fa00"
+  },
+  "results": [
+    {
+      "score": 0,
+      "task_results": [
+        {
+          "task_id": "arvo:47101",
+          "error": "HTTP Error 400: Invalid SSE response or protocol error: Expected response header Content-Type to contain 'text/event-stream', got 'application/json'"
+        }
+      ]
+    },
+    {
+      "score": 0,
+      "task_results": [
+        {
+          "task_id": "oss-fuzz:42535201",
+          "error": "HTTP Error 400: Invalid SSE response or protocol error: Expected response header Content-Type to contain 'text/event-stream', got 'application/json'"
+        }
+      ]
+    }
+  ]
+}
