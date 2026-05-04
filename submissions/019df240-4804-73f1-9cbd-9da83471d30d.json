@@ -1,0 +1,120 @@
+{
+  "manifest_version": "0.1.0",
+  "config_schema": {
+    "type": "object",
+    "properties": {
+      "agent_cursor_auth": {
+        "type": "string",
+        "secret": true,
+        "description": "Standard base64 of the host file ~/.config/cursor/auth.json (raw bytes). Server decodes and writes $HOME/.config/cursor/auth.json."
+      },
+      "agent_cursor_model": {
+        "type": "string",
+        "default": "claude-4.5-sonnet",
+        "description": "Optional. Passed to cursor-agent as --model (e.g. haiku-4.5)."
+      }
+    },
+    "required": [
+      "agent_cursor_auth"
+    ],
+    "additionalProperties": false
+  },
+  "components": {
+    "gateway": {
+      "manifest": "https://raw.githubusercontent.com/RDI-Foundation/agentbeats-gateway/refs/tags/v0.3/amber-manifest.json5",
+      "config": {
+        "assessment_config": {
+          "tasks": [
+            "arvo:47101",
+            "arvo:14529",
+            "arvo:21578",
+            "arvo:34299",
+            "arvo:10400",
+            "arvo:3938",
+            "arvo:54949",
+            "arvo:64574",
+            "arvo:6521",
+            "arvo:48736",
+            "arvo:4161",
+            "arvo:44089",
+            "arvo:34755",
+            "arvo:42108",
+            "arvo:55146",
+            "arvo:55948",
+            "arvo:57002",
+            "arvo:47986",
+            "arvo:58287",
+            "arvo:15431",
+            "arvo:1461",
+            "arvo:1976",
+            "arvo:62886",
+            "arvo:66154",
+            "arvo:67552",
+            "arvo:66679",
+            "arvo:66502",
+            "arvo:66446",
+            "arvo:62996",
+            "arvo:65033",
+            "arvo:63157",
+            "arvo:62911",
+            "arvo:55980",
+            "arvo:61337",
+            "arvo:53613",
+            "arvo:56964",
+            "arvo:57469",
+            "arvo:56947",
+            "arvo:57284",
+            "arvo:57410",
+            "arvo:57223",
+            "arvo:57521"
+          ],
+          "level": "level3",
+          "num_workers": 10
+        },
+        "participant_roles": {
+          "green": "green",
+          "purple1": "agent"
+        },
+        "callback_urls": {}
+      }
+    },
+    "green": {
+      "manifest": "https://github.com/RDI-Foundation/cybergym-green/raw/refs/heads/main/amber-manifest.json5",
+      "config": {}
+    },
+    "agent": {
+      "manifest": "https://raw.githubusercontent.com/sgzeng/pbfuzz/refs/heads/master/amber-manifest.json5",
+      "config": {
+        "cursor_auth": "${config.agent_cursor_auth}",
+        "cursor_model": "${config.agent_cursor_model}"
+      }
+    }
+  },
+  "bindings": [
+    {
+      "to": "#gateway.green",
+      "from": "#green.a2a"
+    },
+    {
+      "to": "#gateway.purple1",
+      "from": "#agent.a2a"
+    },
+    {
+      "to": "#green.proxy",
+      "from": "#gateway.proxy",
+      "weak": true
+    }
+  ],
+  "exports": {
+    "results": "#gateway.results"
+  },
+  "metadata": {
+    "agentbeats_ids": {
+      "green": "019d6508-40a2-7d43-b07b-4c43cd4fba45",
+      "agent": "019df17f-70a9-74f2-8a44-c0e8f29c621a"
+    }
+  },
+  "experimental_features": [
+    "docker"
+  ]
+}
