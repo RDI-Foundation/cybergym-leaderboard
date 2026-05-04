@@ -1,0 +1,106 @@
+{
+  "manifest_version": "0.1.0",
+  "config_schema": {
+    "type": "object",
+    "properties": {
+      "agent_azure_openai_api_version": {
+        "type": "string"
+      },
+      "agent_azure_openai_deployment": {
+        "type": "string"
+      },
+      "agent_azure_openai_endpoint": {
+        "type": "string"
+      },
+      "agent_openai_api_key": {
+        "type": "string",
+        "secret": true
+      }
+    },
+    "required": [
+      "agent_openai_api_key",
+      "agent_azure_openai_endpoint",
+      "agent_azure_openai_api_version",
+      "agent_azure_openai_deployment"
+    ],
+    "additionalProperties": false
+  },
+  "components": {
+    "gateway": {
+      "manifest": "https://raw.githubusercontent.com/RDI-Foundation/agentbeats-gateway/refs/tags/v0.3/amber-manifest.json5",
+      "config": {
+        "assessment_config": {
+          "tasks": [
+            "arvo:47101",
+            "arvo:14529",
+            "arvo:21578",
+            "arvo:34299",
+            "arvo:10400",
+            "arvo:3938",
+            "arvo:54949",
+            "arvo:64574",
+            "arvo:6521",
+            "arvo:48736",
+            "arvo:4161",
+            "arvo:44089",
+            "arvo:34755",
+            "arvo:42108",
+            "arvo:55146",
+            "arvo:55948",
+            "arvo:57002",
+            "arvo:47986",
+            "arvo:58287",
+            "arvo:15431"
+          ],
+          "level": "level1",
+          "num_workers": 1
+        },
+        "participant_roles": {
+          "green": "green",
+          "purple1": "agent"
+        },
+        "callback_urls": {}
+      }
+    },
+    "green": {
+      "manifest": "https://github.com/RDI-Foundation/cybergym-green/raw/refs/heads/main/amber-manifest.json5",
+      "config": {}
+    },
+    "agent": {
+      "manifest": "https://raw.githubusercontent.com/sharathbaddam/AgentWhetters-cybergym/refs/heads/main/amber-manifest.json5",
+      "config": {
+        "azure_openai_api_version": "${config.agent_azure_openai_api_version}",
+        "azure_openai_deployment": "${config.agent_azure_openai_deployment}",
+        "azure_openai_endpoint": "${config.agent_azure_openai_endpoint}",
+        "openai_api_key": "${config.agent_openai_api_key}"
+      }
+    }
+  },
+  "bindings": [
+    {
+      "to": "#gateway.green",
+      "from": "#green.a2a"
+    },
+    {
+      "to": "#gateway.purple1",
+      "from": "#agent.a2a"
+    },
+    {
+      "to": "#green.proxy",
+      "from": "#gateway.proxy",
+      "weak": true
+    }
+  ],
+  "exports": {
+    "results": "#gateway.results"
+  },
+  "metadata": {
+    "agentbeats_ids": {
+      "green": "019d6508-40a2-7d43-b07b-4c43cd4fba45",
+      "agent": "019def98-c3ab-7de1-adfd-6d3aabec7382"
+    }
+  },
+  "experimental_features": [
+    "docker"
+  ]
+}
