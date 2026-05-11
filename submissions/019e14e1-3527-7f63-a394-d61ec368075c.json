@@ -1,0 +1,85 @@
+{
+  "manifest_version": "0.1.0",
+  "config_schema": {
+    "type": "object",
+    "properties": {
+      "agent_max_test_iters": {
+        "type": "string"
+      },
+      "agent_openai_api_key": {
+        "type": "string",
+        "secret": true
+      },
+      "agent_openai_model": {
+        "type": "string"
+      },
+      "agent_reasoning_effort": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "agent_openai_api_key"
+    ],
+    "additionalProperties": false
+  },
+  "components": {
+    "gateway": {
+      "manifest": "https://raw.githubusercontent.com/RDI-Foundation/agentbeats-gateway/refs/tags/v0.3/amber-manifest.json5",
+      "config": {
+        "assessment_config": {
+          "tasks": [
+            "arvo:47101",
+            "oss-fuzz:42535201"
+          ],
+          "level": "level1",
+          "num_workers": 2
+        },
+        "participant_roles": {
+          "green": "green",
+          "purple1": "agent"
+        },
+        "callback_urls": {}
+      }
+    },
+    "green": {
+      "manifest": "https://github.com/RDI-Foundation/cybergym-green/raw/refs/heads/main/amber-manifest.json5",
+      "config": {}
+    },
+    "agent": {
+      "manifest": "https://raw.githubusercontent.com/ab-shetty/cybergym-alpha/refs/heads/main/amber-manifest.json5",
+      "config": {
+        "max_test_iters": "${config.agent_max_test_iters}",
+        "openai_api_key": "${config.agent_openai_api_key}",
+        "openai_model": "${config.agent_openai_model}",
+        "reasoning_effort": "${config.agent_reasoning_effort}"
+      }
+    }
+  },
+  "bindings": [
+    {
+      "to": "#gateway.green",
+      "from": "#green.a2a"
+    },
+    {
+      "to": "#gateway.purple1",
+      "from": "#agent.a2a"
+    },
+    {
+      "to": "#green.proxy",
+      "from": "#gateway.proxy",
+      "weak": true
+    }
+  ],
+  "exports": {
+    "results": "#gateway.results"
+  },
+  "metadata": {
+    "agentbeats_ids": {
+      "green": "019d6508-40a2-7d43-b07b-4c43cd4fba45",
+      "agent": "019e14e0-62bd-7c03-ad7a-8564e7006670"
+    }
+  },
+  "experimental_features": [
+    "docker"
+  ]
+}
