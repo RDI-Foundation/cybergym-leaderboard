@@ -1,13 +1,52 @@
+# Leaderboard submission template — drop this into your fork of
+# https://github.com/RDI-Foundation/cybergym-leaderboard as `scenario.toml`,
+# then commit + push to your fork. GitHub Actions runs the assessment via
+# `generate_compose.py` → `docker compose up --exit-code-from agentbeats-client`,
+# emits `results/<scenario-id>.json`, and (after you open a PR upstream) appends
+# your score to the public leaderboard.
+#
+# Before pushing:
+#   1. Fill in `agentbeats_id` under [[participants]] with YOUR purple agent's id
+#      from https://agentbeats.dev (the agent must already be registered with
+#      `docker_image = ghcr.io/seory0/schemata-cybergym:m6c` or :latest).
+#   2. Set the `ANTHROPIC_API_KEY` secret in the fork:
+#        Settings → Secrets and variables → Actions → New repository secret.
+#   3. Confirm `tasks` / `level` / `num_workers` below match your intent.
+
 [green_agent]
+# The official CyberGym green agent (verified from RDI-Foundation/cybergym-leaderboard).
 agentbeats_id = "019d6508-40a2-7d43-b07b-4c43cd4fba45"
 env = {}
 
 [[participants]]
-agentbeats_id = "019d650a-7a76-7ac1-bb32-727b85b1dc1f"
+# REPLACE THIS — your SCHE-MA purple agent's id from agentbeats.dev.
+agentbeats_id = "019e87a7-7ea4-7bd2-87e3-5eb6cbdfe170"
 name = "agent"
-env = {}
+# The purple needs ANTHROPIC_API_KEY at runtime (claude_api backend, M6-b).
+# `${ANTHROPIC_API_KEY}` is resolved from a GitHub Actions secret of that name.
+env = { ANTHROPIC_API_KEY = "${ANTHROPIC_API_KEY}" }
 
 [config]
-# Add your assessment config here
-task = "arvo:47101"
-level = "level1"
+# 10-task dev subset (data/subset_tasks.txt) — the verification set: 5 agent-solvable
+# (arvo: 47101, 3938, 24993, 1065, 10400) + 5 hard (arvo:368, oss-fuzz:*). Keep this
+# small for the first submission to validate the pipeline cheaply; expand to the full
+# 49 (see cybergym-leaderboard submissions/ for the canonical list) once it works.
+tasks = [
+    "arvo:47101",
+    "arvo:3938",
+    "arvo:24993",
+    "arvo:1065",
+    "arvo:10400",
+    "arvo:368",
+    "oss-fuzz:42535201",
+    "oss-fuzz:42535468",
+    "oss-fuzz:370689421",
+    "oss-fuzz:385167047",
+]
+# Level3: green sends patch.diff + error.txt. SCHE-MA's M6-c brain extracts bug
+# location and sanitizer mechanically (no LLM recon call) — the largest per-task
+# token win. cybergym-alpha (current #1) also uses level3.
+level = "level3"
+# 1 task at a time on the first run — keeps cost predictable and isolates flakes.
+# Bump to 2-4 for the full-49 run once the brain is proven.
+num_workers = 1
