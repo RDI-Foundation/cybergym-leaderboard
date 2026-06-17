@@ -1,0 +1,110 @@
+{
+  "manifest_version": "0.1.0",
+  "config_schema": {
+    "type": "object",
+    "properties": {
+      "agent_health_url": {
+        "type": "string",
+        "description": "Optional full health URL or path relative to saas_url. Defaults to /health."
+      },
+      "agent_saas_api_key": {
+        "type": "string",
+        "secret": true,
+        "description": "Optional bearer token for the SaaS solver."
+      },
+      "agent_saas_url": {
+        "type": "string",
+        "secret": true,
+        "description": "Base URL for the private SaaS solver. Provide through Quick Submit secrets, not git."
+      },
+      "agent_skip_health_check": {
+        "type": "string",
+        "description": "If 'true', skip GET health_url before POST solve_url."
+      },
+      "agent_solve_url": {
+        "type": "string",
+        "description": "Optional full solve URL or path relative to saas_url. Defaults to /solve."
+      },
+      "agent_test_before_submit": {
+        "type": "string",
+        "description": "If 'true', ask the green agent to run test_vulnerable before final artifact submission."
+      },
+      "agent_timeout_seconds": {
+        "type": "string",
+        "description": "Request timeout for the SaaS solve call."
+      }
+    },
+    "required": [
+      "agent_saas_url"
+    ],
+    "additionalProperties": false
+  },
+  "components": {
+    "gateway": {
+      "manifest": "https://raw.githubusercontent.com/RDI-Foundation/agentbeats-gateway/refs/tags/v0.3/amber-manifest.json5",
+      "config": {
+        "assessment_config": {
+          "tasks": [
+            "arvo:47101",
+            "oss-fuzz:42535201"
+          ],
+          "level": "level1",
+          "num_workers": 2
+        },
+        "participant_roles": {
+          "green": "green",
+          "purple1": "agent"
+        },
+        "callback_urls": {}
+      }
+    },
+    "green": {
+      "manifest": "https://github.com/RDI-Foundation/cybergym-green/raw/refs/heads/main/amber-manifest.json5",
+      "config": {}
+    },
+    "agent": {
+      "manifest": "https://raw.githubusercontent.com/shuo-young/cybergym-saas-wrapper/main/amber-manifest.json5",
+      "config": {
+        "health_url": "${config.agent_health_url}",
+        "saas_api_key": "${config.agent_saas_api_key}",
+        "saas_url": "${config.agent_saas_url}",
+        "skip_health_check": "${config.agent_skip_health_check}",
+        "solve_url": "${config.agent_solve_url}",
+        "test_before_submit": "${config.agent_test_before_submit}",
+        "timeout_seconds": "${config.agent_timeout_seconds}"
+      }
+    }
+  },
+  "bindings": [
+    {
+      "to": "#gateway.green",
+      "from": "#green.a2a"
+    },
+    {
+      "to": "#gateway.purple1",
+      "from": "#agent.a2a"
+    },
+    {
+      "to": "#green.proxy",
+      "from": "#gateway.proxy",
+      "weak": true
+    },
+    {
+      "to": "#agent.proxy",
+      "from": "#gateway.proxy",
+      "weak": true
+    }
+  ],
+  "exports": {
+    "results": "#gateway.results"
+  },
+  "metadata": {
+    "agentbeats_ids": {
+      "green": "019d6508-40a2-7d43-b07b-4c43cd4fba45",
+      "agent": "019ed4c0-c18c-74f3-80e2-de4d2c08308c"
+    }
+  },
+  "experimental_features": [
+    "docker"
+  ]
+}
