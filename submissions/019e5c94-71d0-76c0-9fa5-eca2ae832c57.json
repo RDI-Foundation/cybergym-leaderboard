@@ -1,0 +1,104 @@
+{
+  "manifest_version": "0.1.0",
+  "config_schema": {
+    "type": "object",
+    "properties": {
+      "agent_openai_api_key": {
+        "type": "string",
+        "secret": true
+      }
+    },
+    "required": [
+      "agent_openai_api_key"
+    ],
+    "additionalProperties": false
+  },
+  "components": {
+    "gateway": {
+      "manifest": "https://raw.githubusercontent.com/RDI-Foundation/agentbeats-gateway/refs/tags/v0.3/amber-manifest.json5",
+      "config": {
+        "assessment_config": {
+          "tasks": [
+            "arvo:47101",
+            "arvo:3938",
+            "arvo:24993",
+            "arvo:1065",
+            "arvo:10400",
+            "arvo:65530",
+            "arvo:3848",
+            "arvo:3862",
+            "arvo:65383",
+            "oss-fuzz:42535201",
+            "oss-fuzz:385167047",
+            "arvo:1461",
+            "arvo:67297",
+            "arvo:64574",
+            "arvo:1976",
+            "arvo:62886",
+            "oss-fuzz:370689421",
+            "arvo:61337",
+            "arvo:14529",
+            "arvo:60670",
+            "arvo:14232",
+            "arvo:38393",
+            "arvo:54949",
+            "arvo:55146",
+            "arvo:55948",
+            "arvo:57002",
+            "arvo:6521",
+            "arvo:65820",
+            "arvo:62911",
+            "arvo:63314",
+            "arvo:58085",
+            "arvo:62183",
+            "arvo:57551"
+          ],
+          "level": "level2",
+          "num_workers": 2
+        },
+        "participant_roles": {
+          "green": "green",
+          "purple1": "agent"
+        },
+        "callback_urls": {}
+      }
+    },
+    "green": {
+      "manifest": "https://github.com/RDI-Foundation/cybergym-green/raw/refs/heads/main/amber-manifest.json5",
+      "config": {}
+    },
+    "agent": {
+      "manifest": "https://raw.githubusercontent.com/paulwhitten/AgentWhetters-dispatch-general-purple/refs/heads/main/amber-manifest.json5",
+      "config": {
+        "openai_api_key": "${config.agent_openai_api_key}"
+      }
+    }
+  },
+  "bindings": [
+    {
+      "to": "#gateway.green",
+      "from": "#green.a2a"
+    },
+    {
+      "to": "#gateway.purple1",
+      "from": "#agent.a2a"
+    },
+    {
+      "to": "#green.proxy",
+      "from": "#gateway.proxy",
+      "weak": true
+    }
+  ],
+  "exports": {
+    "results": "#gateway.results"
+  },
+  "metadata": {
+    "agentbeats_ids": {
+      "green": "019d6508-40a2-7d43-b07b-4c43cd4fba45",
+      "agent": "019e5ad0-cc7e-70f2-8a37-32f76d63b641"
+    }
+  },
+  "experimental_features": [
+    "docker"
+  ]
+}
