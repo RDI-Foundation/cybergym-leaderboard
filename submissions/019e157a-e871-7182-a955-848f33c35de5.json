@@ -1,0 +1,80 @@
+{
+  "manifest_version": "0.1.0",
+  "config_schema": {
+    "type": "object",
+    "properties": {
+      "agent_cursor_auth": {
+        "type": "string",
+        "secret": true,
+        "description": "Standard base64 of the host file ~/.config/cursor/auth.json (raw bytes). Server decodes and writes $HOME/.config/cursor/auth.json."
+      },
+      "agent_cursor_model": {
+        "type": "string",
+        "default": "claude-4.5-sonnet",
+        "description": "Optional. Passed to cursor-agent as --model (e.g. haiku-4.5); also used as PBFUZZ_LLM_MODEL when set."
+      }
+    },
+    "required": [
+      "agent_cursor_auth"
+    ],
+    "additionalProperties": false
+  },
+  "components": {
+    "gateway": {
+      "manifest": "https://raw.githubusercontent.com/RDI-Foundation/agentbeats-gateway/refs/tags/v0.3/amber-manifest.json5",
+      "config": {
+        "assessment_config": {
+          "tasks": [
+            "arvo:47101",
+            "oss-fuzz:42535201"
+          ],
+          "level": "level3",
+          "num_workers": 2
+        },
+        "participant_roles": {
+          "green": "green",
+          "purple1": "agent"
+        },
+        "callback_urls": {}
+      }
+    },
+    "green": {
+      "manifest": "https://github.com/RDI-Foundation/cybergym-green/raw/refs/heads/main/amber-manifest.json5",
+      "config": {}
+    },
+    "agent": {
+      "manifest": "https://raw.githubusercontent.com/sgzeng/pbfuzz/refs/heads/agentbeats-pbfuzz/amber-manifest.json5",
+      "config": {
+        "cursor_auth": "${config.agent_cursor_auth}",
+        "cursor_model": "${config.agent_cursor_model}"
+      }
+    }
+  },
+  "bindings": [
+    {
+      "to": "#gateway.green",
+      "from": "#green.a2a"
+    },
+    {
+      "to": "#gateway.purple1",
+      "from": "#agent.a2a"
+    },
+    {
+      "to": "#green.proxy",
+      "from": "#gateway.proxy",
+      "weak": true
+    }
+  ],
+  "exports": {
+    "results": "#gateway.results"
+  },
+  "metadata": {
+    "agentbeats_ids": {
+      "green": "019d6508-40a2-7d43-b07b-4c43cd4fba45",
+      "agent": "019e1566-ab6b-7d82-a805-38593550ddb5"
+    }
+  },
+  "experimental_features": [
+    "docker"
+  ]
+}
