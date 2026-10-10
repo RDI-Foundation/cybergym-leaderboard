@@ -1,0 +1,22 @@
+{
+  "status": "completed",
+  "participants": {
+    "green": "019d6508-40a2-7d43-b07b-4c43cd4fba45",
+    "agent": "01a1263d-30d8-78b3-8691-f1fdb11517df"
+  },
+  "results": [
+    {
+      "score": 0,
+      "task_results": [
+        {
+          "task_id": "arvo:52317",
+          "error": "HTTP Error 503: Network communication error: peer closed connection without sending complete message body (incomplete chunked read)"
+        }
+      ]
+    },
+    {
+      "score": 0,
+      "task_results": []
+    }
+  ]
+}
