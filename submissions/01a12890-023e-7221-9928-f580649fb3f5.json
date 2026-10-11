@@ -1,0 +1,94 @@
+{
+  "manifest_version": "0.1.0",
+  "config_schema": {
+    "type": "object",
+    "properties": {
+      "agent_assessment_id": {
+        "type": "string"
+      },
+      "agent_authority_token": {
+        "secret": true,
+        "type": "string"
+      },
+      "agent_green_image_sha256": {
+        "pattern": "^[0-9a-f]{64}$",
+        "type": "string"
+      },
+      "agent_openrouter_api_key": {
+        "secret": true,
+        "type": "string"
+      }
+    },
+    "required": [
+      "agent_openrouter_api_key",
+      "agent_authority_token",
+      "agent_assessment_id",
+      "agent_green_image_sha256"
+    ],
+    "additionalProperties": false
+  },
+  "components": {
+    "gateway": {
+      "manifest": "https://raw.githubusercontent.com/RDI-Foundation/agentbeats-gateway/refs/tags/v0.3/amber-manifest.json5",
+      "config": {
+        "assessment_config": {
+          "tasks": [
+            "arvo:10341"
+          ],
+          "level": "level1",
+          "num_workers": 1
+        },
+        "participant_roles": {
+          "green": "green",
+          "purple1": "agent"
+        },
+        "callback_urls": {}
+      }
+    },
+    "green": {
+      "manifest": "https://github.com/RDI-Foundation/cybergym-green/raw/refs/heads/main/amber-manifest.json5",
+      "config": {}
+    },
+    "agent": {
+      "manifest": "https://raw.githubusercontent.com/yc54616/cybergym-agentbeats-manifest/f3de231c5dc8901d32989691a58cb2c178dcc787/cho-haehyun-empty-text-recovery-20261011.json",
+      "config": {
+        "assessment_id": "${config.agent_assessment_id}",
+        "authority_token": "${config.agent_authority_token}",
+        "green_image_sha256": "${config.agent_green_image_sha256}",
+        "openrouter_api_key": "${config.agent_openrouter_api_key}"
+      }
+    }
+  },
+  "bindings": [
+    {
+      "to": "#gateway.green",
+      "from": "#green.a2a"
+    },
+    {
+      "to": "#gateway.purple1",
+      "from": "#agent.a2a"
+    },
+    {
+      "to": "#green.proxy",
+      "from": "#gateway.proxy",
+      "weak": true
+    },
+    {
+      "to": "#agent.proxy",
+      "from": "#gateway.proxy",
+      "weak": true
+    }
+  ],
+  "exports": {
+    "results": "#gateway.results"
+  },
+  "metadata": {
+    "agentbeats_ids": {
+      "green": "019d6508-40a2-7d43-b07b-4c43cd4fba45",
+      "agent": "01a1263d-30d8-78b3-8691-f1fdb11517df"
+    }
+  },
+  "experimental_features": [
+    "docker"
+  ]
+}
